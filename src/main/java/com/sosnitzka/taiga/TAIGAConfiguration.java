@@ -19,6 +19,7 @@ public class TAIGAConfiguration {
 
     public static boolean ironGen;
     public static boolean endGen;
+    public static boolean tibExp;			// Used to check if Tiberium Ore Explosions are allowed
 
     public static boolean tiberiumGen;
     public static boolean prometheumGen;
@@ -119,6 +120,11 @@ public class TAIGAConfiguration {
         endSwitch.setComment("Switch additional endstone on/off");
         endSwitch.setLanguageKey("gui.taiga_configuration.gen_end");
 
+        // Option to disable Tiberium Ore Explosions
+        Property tiberiumExplosions = config.get(CATEGORY_NAME_GENERAL, "Tiberium Ore occasionally explodes", true);
+        tiberiumExplosions.setComment("Enable / disable Tiberium Ore exploding occasionally when mined");
+        tiberiumExplosions.setLanguageKey("gui.taiga_configuration.tiberium_explosions");
+
         /*
         Stuff which probably gonna come back
 
@@ -132,6 +138,7 @@ public class TAIGAConfiguration {
         List<String> propOrderGeneral = new ArrayList<String>();
         propOrderGeneral.add(ironSwitch.getName());
         propOrderGeneral.add(endSwitch.getName());
+        propOrderGeneral.add(tiberiumExplosions.getName());
         // propOrderGeneral.add(durabilityFactorGeneralProp.getName());
         config.setCategoryPropertyOrder(CATEGORY_NAME_GENERAL, propOrderGeneral);
 
@@ -201,6 +208,7 @@ public class TAIGAConfiguration {
         if (readFieldsFromConfig) {
             ironGen = ironSwitch.getBoolean(false);
             endGen = endSwitch.getBoolean(true);
+            tibExp = tiberiumExplosions.getBoolean(true);
             IRON_VAL = ironValueProp.getInt(IRON_DEFAULT);
             if (IRON_VAL > RESFAC_MAX_VALUE || IRON_VAL < RESFAC_MIN_VALUE) {
                 IRON_VAL = IRON_DEFAULT;
@@ -273,6 +281,7 @@ public class TAIGAConfiguration {
 
         ironSwitch.set(ironGen);
         endSwitch.set(endGen);
+        tiberiumExplosions.set(tibExp);
         ironValueProp.set(IRON_VAL);
         tiberiumValueProp.set(TIBERIUM_VAL);
         prometheumValueProp.set(PROMETHEUM_VAL);

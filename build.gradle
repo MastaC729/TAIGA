@@ -39,7 +39,7 @@ sourceCompatibility = JavaVersion.VERSION_1_7
 targetCompatibility = JavaVersion.VERSION_1_8
 
 
-task buildInfo {
+/*task buildInfo {
     if (System.getenv().TAIGA_TAG != null) {
         ext.revision = System.getenv().TAIGA_TAG
     } else {
@@ -59,12 +59,12 @@ task buildInfo {
     } else {
         ext.changes = "N/A"
     }
-}
+}*/
 
-version = project.buildInfo.revision
+version = "1.2.7-HOMEBAKED"
 
 minecraft {
-    version = "1.10.2-12.18.3.2202"
+    version = "1.10.2-12.18.3.2221"
     runDir = "run"
     mappings = "stable_29"
     replace '@VERSION@', project.version
@@ -72,7 +72,6 @@ minecraft {
 
 //noinspection GroovyAssignabilityCheck
 ext.mc_version = project.minecraft.version.split('-')[0]
-version = "${mc_version}-${project.buildInfo.revision}"
 
 dependencies {
     //deobfCompile "codechicken:CodeChickenLib:1.9.4-2.0.2.39:deobf"
@@ -122,25 +121,4 @@ task deobfJar(type: Jar) {
 
 artifacts {
     archives deobfJar
-}
-
-curseforge {
-    apiKey = System.getenv().CURSE_API_KEY ? System.getenv().CURSE_API_KEY : "devBuild"
-    //noinspection GroovyAssignabilityCheck
-    project {
-        id = '247661'
-        changelog = project.buildInfo.changes // A file can also be set using: changelog = file('changelog.txt')
-        releaseType = 'release'
-        //addGameVersion '1.10.2'
-        //addGameVersion '1.10.1'
-        addArtifact deobfJar
-
-        mainArtifact(jar) {
-            displayName = "taiga-${project.buildInfo.revision}"
-        }
-
-        relations {
-            requiredLibrary 'tinkers-construct'
-        }
-    }
 }
